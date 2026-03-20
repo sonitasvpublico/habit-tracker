@@ -1,8 +1,12 @@
 # Context for Habit Tracker Project
 
-## 🎯 What We're Building
+## 🎯 What This App Is
 
-A simple **Habit Tracker** application to help learn TypeScript deeply while building something useful.
+**Rastreador de hábitos:** la gente agrega hábitos, **cada día marca si los hizo** ("Hecho hoy"), y ve una **racha** (días seguidos) para sentirlo útil. Una pantalla, sin cuenta, guardado en el navegador (localStorage). Sencillo y meaningful.
+
+**Doc de propósito (no perder el punto):** ver **PURPOSE.md** — ahí está el "por qué", el alcance mínimo y el plan rápido.
+
+**Hoy:** Add habits, list, delete, idiomas EN/ES/FI. Falta: persistencia, "Hecho hoy", racha, y un toque de UI.
 
 ## 👤 About the Developer
 
@@ -31,8 +35,10 @@ A simple **Habit Tracker** application to help learn TypeScript deeply while bui
 ## 🚀 Current Status
 
 - ✅ Project created with Vite + React + TypeScript
-- ✅ Dependencies installed
-- ⏳ Ready to start building
+- ✅ Types: `Habit` interface (id, name, createdAt, completedDates)
+- ✅ Add habits (AddHabitForm), list and delete (HabitList), state in App
+- ✅ i18n: English (default), Spanish (ES), Finnish (FI) with language switcher in header
+- ⏳ Next: persistence (localStorage), mark complete per day, streaks, stats, UI polish
 
 ## 💬 Communication Style
 
@@ -61,3 +67,19 @@ Each concept explained with practical examples from the habit tracker.
 ---
 
 **This file helps maintain context when switching between projects.**
+
+
+## 📋 Guía de pasos (qué hice / qué sigue)
+
+### Completados
+1. **Interfaz `Habit`** – `src/types.ts` (id, name, createdAt, completedDates).
+2. **Formulario** – `AddHabitForm.tsx` (agregar hábitos, props tipadas).
+3. **Lista** – `HabitList.tsx` (mostrar y eliminar hábitos).
+4. **App** – `App.tsx` con estado `habits`, handlers, integración de componentes.
+5. **Idiomas** – `translations.ts` + `LanguageContext.tsx`, selector EN / ES / FI en el header.
+
+### Próximos pasos
+6. **Persistencia** – Guardar/cargar hábitos en localStorage.
+7. **Marcar completado** – Checkbox por día y guardar en `completedDates`.
+8. **Rachas y estadísticas** – Cálculo de rachas y porcentajes.
+9. **Embellecer** – Mejorar layout, colores, espaciado, maybe cards o secciones.

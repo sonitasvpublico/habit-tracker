@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Habit Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **habit tracker** that stays useful and simple: add habits, **mark them "Done today"**, see a **streak** (consecutive days). One screen, no account, data in the browser. Built with React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+**Purpose and scope:** see **docs/PURPOSE.md** (why the app exists, minimal scope, fast dev plan).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What it does (target)
 
-## React Compiler
+- **Add habits** – Name and add.
+- **Mark "Done today"** – Per habit, mark if you did it today; dates stored in `completedDates`.
+- **Streak** – Show consecutive days (e.g. "3 days") next to each habit.
+- **Persist** – localStorage so nothing is lost on refresh.
+- **Languages** – EN / ES / FI in the header.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*Currently: add, list, delete, languages. Persistence + "Done today" + streak in progress.*
 
-## Expanding the ESLint configuration
+## Run locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then open **http://localhost:5173**.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tech stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **React 19** + **TypeScript**
+- **Vite 7**
+- **CSS** (no framework); i18n via custom `translations.ts` + `LanguageContext`
+
+## Project structure (main files)
+
+- `src/App.tsx` – Main app, habits state, language switcher
+- `src/AddHabitForm.tsx` – Form to add a habit
+- `src/HabitList.tsx` – List of habits with delete
+- `src/types.ts` – `Habit` interface (id, name, createdAt, completedDates)
+- `src/translations.ts` – EN / ES / FI strings
+- `src/LanguageContext.tsx` – Language state and `t()` for translations
+
+## Planned features
+
+- **Persist habits** in localStorage
+- **Mark habit complete** per day (use `completedDates`)
+- **Streaks** and **statistics**
+- **UI polish** – layout, cards, spacing, theme
+
+## Documentation (`docs/`)
+
+- **docs/PURPOSE.md** – Why the app exists, minimal scope, fast dev plan
+- **docs/CONTEXT.md** – Project context, status, step guide
+- **docs/PROJECT_PLAN.md** – Learning goals, features, next steps

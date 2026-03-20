@@ -2,9 +2,9 @@
 
 ## 🎯 Project Overview
 **Name:** Habit Tracker  
-**Purpose:** Simple habit tracking application to learn TypeScript deeply  
+**Purpose:** Simple habit tracking app to learn TypeScript; track habits, (later) mark done per day, streaks, stats  
 **Created:** January 2026  
-**Status:** Starting development
+**Status:** Core done (add/list/delete habits + EN/ES/FI). Next: persistence, mark complete, streaks, UI polish
 
 ---
 
@@ -34,10 +34,10 @@
 ## 🏗️ Project Structure
 
 ### Features to Build:
-1. **Add/Remove Habits**
+1. **Add/Remove Habits** ✅
    - Form to add new habits
    - List of habits with delete option
-   - TypeScript: Interfaces, form handling
+   - Done: AddHabitForm, HabitList, App state
 
 2. **Mark Habits Complete**
    - Checkbox to mark habits as done
@@ -78,9 +78,9 @@
 - **Practical examples:** Each concept applied in real code
 
 ### Current Status:
-- ✅ Project created with Vite + React + TypeScript
-- ⏳ Starting with basic types and interfaces
-- ⏳ Building first feature: Add habits
+- ✅ Vite + React + TypeScript, Habit type, Add/List/Delete habits
+- ✅ i18n: English, Spanish (ES), Finnish (FI) with header switcher
+- ⏳ Persistence (localStorage), mark complete, streaks, statistics, UI polish
 
 ---
 
@@ -91,16 +91,6 @@
 - How to define types for our data
 - Creating interfaces for habits
 - Type safety in React components
-
-**Code example:**
-```typescript
-interface Habit {
-  id: string;
-  name: string;
-  completed: boolean;
-  createdAt: Date;
-}
-```
 
 ### Step 2: Typed Functions & Components
 **What we'll learn:**
@@ -125,12 +115,14 @@ interface Habit {
 
 ## 📋 Next Steps
 
-1. Define Habit interface
-2. Create AddHabitForm component
-3. Create HabitList component
+1. ~~Define Habit interface~~ ✅
+2. ~~Create AddHabitForm component~~ ✅
+3. ~~Create HabitList component~~ ✅
 4. Add localStorage persistence
-5. Add streak calculation
-6. Add statistics
+5. Mark habit complete (per day) → use completedDates
+6. Add streak calculation
+7. Add statistics
+8. UI: layout, cards, spacing, maybe theme
 
 ---
 
@@ -143,4 +135,4 @@ interface Habit {
 
 ---
 
-**Last Updated:** January 2026
+**Last Updated:** February 2026

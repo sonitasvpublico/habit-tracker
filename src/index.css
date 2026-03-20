@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,6 +19,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -20,14 +41,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -65,4 +78,53 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Theme overrides (when user picks light/dark) */
+body.theme-light {
+  color-scheme: light;
+  color: #1f2937;
+  background-color: #f5f6fb;
+}
+body.theme-light a:hover {
+  color: #747bff;
+}
+body.theme-light button {
+  background-color: #f9f9f9;
+}
+
+body.theme-dark {
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a1a1e;
+}
+body.theme-dark button {
+  background-color: #2a2a2e;
+}
+
+/* Force dark when theme is dark (override light media) */
+body.theme-dark .habit-item,
+body.theme-dark .completed-item,
+body.theme-dark .history-habit {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.theme-dark form input {
+  background: rgba(255, 255, 255, 0.05);
+}
+body.theme-dark .habit-name,
+body.theme-dark .completed-name,
+body.theme-dark .history-habit-name {
+  color: rgba(255, 255, 255, 0.95);
+}
+body.theme-dark .empty-list,
+body.theme-dark .today-date,
+body.theme-dark .history-intro,
+body.theme-dark .history-empty,
+body.theme-dark .history-dates {
+  color: rgba(255, 255, 255, 0.5);
+}
+body.theme-dark .today-heading,
+body.theme-dark .completed-heading {
+  color: rgba(255, 255, 255, 0.95);
 }

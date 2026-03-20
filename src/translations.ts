@@ -36,6 +36,12 @@ export const translations = {
     tabStats: 'Stats',
     statsDoneToday: 'Done today',
     statsTotalStreak: 'Total streak days',
+    statsWeeklyAvg: 'Weekly avg',
+    statsHowCalc: 'How is this calculated?',
+    statsHowCalcHint: 'Average of weekly completions across all habits: total completed days this week divided by (habits × 7).',
+    statsInfoButton: 'How to read these stats',
+    statsDoneTodayHint: 'Number of habits marked as completed today.',
+    statsBestWeekHint: 'Highest number of completed days this week for a single habit (0 to 7).',
     statsBestWeek: 'Best this week',
     statsPerHabit: 'Per habit',
   },
@@ -74,6 +80,12 @@ export const translations = {
     tabStats: 'Estadísticas',
     statsDoneToday: 'Hechos hoy',
     statsTotalStreak: 'Racha total',
+    statsWeeklyAvg: 'Promedio semanal',
+    statsHowCalc: '¿Cómo se calcula?',
+    statsHowCalcHint: 'Promedio de completados semanales entre todos los hábitos: días completados esta semana dividido por (hábitos × 7).',
+    statsInfoButton: 'Cómo leer estas estadísticas',
+    statsDoneTodayHint: 'Número de hábitos marcados como completados hoy.',
+    statsBestWeekHint: 'Mayor cantidad de días completados esta semana para un solo hábito (0 a 7).',
     statsBestWeek: 'Mejor esta semana',
     statsPerHabit: 'Por hábito',
   },
@@ -112,6 +124,12 @@ export const translations = {
     tabStats: 'Tilastot',
     statsDoneToday: 'Tehty tänään',
     statsTotalStreak: 'Kokonaisputki',
+    statsWeeklyAvg: 'Viikkokeskiarvo',
+    statsHowCalc: 'Miten tämä lasketaan?',
+    statsHowCalcHint: 'Viikkosuoritusten keskiarvo kaikista tavoista: tämän viikon suoritetut päivät jaettuna (tavat × 7).',
+    statsInfoButton: 'Miten tilastoja luetaan',
+    statsDoneTodayHint: 'Tänään valmiiksi merkattujen tapojen määrä.',
+    statsBestWeekHint: 'Yhden tavan korkein tällä viikolla tehtyjen päivien määrä (0–7).',
     statsBestWeek: 'Paras tällä viikolla',
     statsPerHabit: 'Per tapa',
   },
@@ -122,7 +140,7 @@ export function getTranslation(
   key: keyof typeof translations.en,
   replace?: { name?: string; n?: number }
 ): string {
-  let text = translations[lang][key]
+  let text: string = translations[lang][key]
   if (replace?.name !== undefined) {
     text = text.replace('{name}', replace.name)
   }

@@ -1,9 +1,16 @@
 import type { Habit } from './types'
 import { useLanguage } from './LanguageContext'
-import { getStreak, getWeeklyCount } from './streak'
+import { getStreak, getWeeklyCount, todayKey } from './streak'
 
 interface StatsViewProps {
   habits: Habit[]
+}
+
+function getMedal(rank: number): string | null {
+  if (rank === 0) return '🥇'
+  if (rank === 1) return '🥈'
+  if (rank === 2) return '🥉'
+  return null
 }
 
 export function StatsView({ habits }: StatsViewProps) {
@@ -17,13 +24,21 @@ export function StatsView({ habits }: StatsViewProps) {
     )
   }
 
-  const totalStreak = habits.reduce((sum, h) => sum + getStreak(h.completedDates), 0)
+  const today = todayKey()
   const completedToday = habits.filter((h) => {
-    const today = new Date().toISOString().slice(0, 10)
     return h.completedDates.includes(today)
   }).length
   const weekTotals = habits.map((h) => getWeeklyCount(h.completedDates))
   const bestWeek = Math.max(0, ...weekTotals)
+  const averageWeeklyCompletion = Math.round(
+    (weekTotals.reduce((sum, n) => sum + n, 0) / (habits.length * 7)) * 100
+  )
+  const sortedHabits = [...habits].sort((a, b) => {
+    const aWeek = getWeeklyCount(a.completedDates)
+    const bWeek = getWeeklyCount(b.completedDates)
+    if (bWeek !== aWeek) return bWeek - aWeek
+    return a.name.localeCompare(b.name)
+  })
 
   return (
     <section className="stats-view">
@@ -33,27 +48,40 @@ export function StatsView({ habits }: StatsViewProps) {
           <span className="stats-card-label">{t('statsDoneToday')}</span>
         </div>
         <div className="stats-card">
-          <span className="stats-card-value">{totalStreak}</span>
-          <span className="stats-card-label">{t('statsTotalStreak')}</span>
+          <span className="stats-card-value">{averageWeeklyCompletion}%</span>
+          <span className="stats-card-label">{t('statsWeeklyAvg')}</span>
         </div>
         <div className="stats-card">
           <span className="stats-card-value">{bestWeek}</span>
           <span className="stats-card-label">{t('statsBestWeek')}</span>
         </div>
       </div>
+      <details className="stats-info">
+        <summary className="stats-info-summary">{t('statsInfoButton')}</summary>
+        <div className="stats-info-panel" role="note">
+          <p><strong>{t('statsDoneToday')}:</strong> {t('statsDoneTodayHint')}</p>
+          <p><strong>{t('statsWeeklyAvg')}:</strong> {t('statsHowCalcHint')}</p>
+          <p><strong>{t('statsBestWeek')}:</strong> {t('statsBestWeekHint')}</p>
+        </div>
+      </details>
       <div className="stats-habits">
         <h3 className="stats-habits-heading">{t('statsPerHabit')}</h3>
         <ul className="stats-habits-ul">
-          {habits.map((habit) => {
+          {sortedHabits.map((habit, index) => {
             const streak = getStreak(habit.completedDates)
             const weekCount = getWeeklyCount(habit.completedDates)
+            const weekPct = Math.round((weekCount / 7) * 100)
+            const medal = getMedal(index)
             return (
               <li key={habit.id} className="stats-habit-row">
-                <span className="stats-habit-name">{habit.name}</span>
+                <span className="stats-habit-name-wrap">
+                  {medal && <span className="stats-habit-medal" aria-hidden>{medal}</span>}
+                  <span className="stats-habit-name">{habit.name}</span>
+                </span>
                 <span className="stats-habit-meta">
-                  {t('streakDays', { n: streak })}
+                  {t('weeklyCount', { n: weekCount })} ({weekPct}%)
                   {' · '}
-                  {t('weeklyCount', { n: weekCount })}
+                  {t('streakDays', { n: streak })}
                 </span>
               </li>
             )

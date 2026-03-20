@@ -173,9 +173,7 @@ function App() {
           <CompletedSection habits={habits} />
         </>
       )}
-      {view === 'weekly' && (
-        <WeeklyView habits={habits} onToggleDate={handleToggleDate} />
-      )}
+      {view === 'weekly' && <WeeklyView habits={habits} />}
       {view === 'history' && <HistoryView habits={habits} />}
       {view === 'stats' && <StatsView habits={habits} />}
       {view === 'more' && <MoreView />}

@@ -232,12 +232,12 @@ form button[type="submit"] {
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+  box-shadow: none;
 }
 
 form button[type="submit"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(34, 211, 238, 0.4);
+  box-shadow: none;
 }
 
 form button[type="submit"]:active {
@@ -643,6 +643,18 @@ body.theme-light .week-day--future .week-day-circle {
   color: rgba(255, 255, 255, 0.95);
 }
 
+.completed-summary-inline {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 700;
+  text-align: center;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18) 0%, rgba(6, 182, 212, 0.12) 100%);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
 @media (prefers-color-scheme: light) {
   .completed-section {
     border-top-color: rgba(34, 211, 238, 0.15);
@@ -656,6 +668,11 @@ body.theme-light .week-day--future .week-day-circle {
   }
   .completed-name {
     color: rgba(0, 0, 0, 0.9);
+  }
+  .completed-summary-inline {
+    color: rgba(0, 0, 0, 0.85);
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%);
+    border-color: rgba(34, 211, 238, 0.25);
   }
 }
 
@@ -674,6 +691,38 @@ body.theme-light .week-day--future .week-day-circle {
 
 .habit-item--readonly .habit-streak {
   margin-left: auto;
+}
+
+.weekly-summary-item {
+  gap: 0.6rem;
+}
+
+.weekly-summary-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.weekly-summary-track {
+  flex: 1;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.weekly-summary-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+}
+
+.weekly-summary-pct {
+  min-width: 2.4rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
 }
 
 .history-intro {
@@ -996,8 +1045,8 @@ body.theme-light .tabbar-item.active {
 }
 
 .stats-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16) 0%, rgba(6, 182, 212, 0.1) 100%);
+  border: 1px solid rgba(34, 211, 238, 0.35);
   border-radius: 12px;
   padding: 1rem 0.75rem;
   text-align: center;
@@ -1007,14 +1056,66 @@ body.theme-light .tabbar-item.active {
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
+  color: #67e8f9;
   margin-bottom: 0.25rem;
 }
 
 .stats-card-label {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.3;
+}
+
+\.stats-info {
+  margin: 0 0 1.25rem;
+  text-align: left;
+}
+
+.stats-info-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stats-info-summary::-webkit-details-marker {
+  display: none;
+}
+
+.stats-info-summary:hover {
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.stats-info-panel {
+  margin-top: 0.6rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stats-info-panel p {
+  margin: 0 0 0.45rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.stats-info-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.stats-info-panel strong {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .stats-habits-heading {
@@ -1035,10 +1136,17 @@ body.theme-light .tabbar-item.active {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(34, 211, 238, 0.08);
   border-radius: 10px;
   margin-bottom: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.stats-habit-row:hover {
+  background: rgba(34, 211, 238, 0.12);
+  border-color: rgba(34, 211, 238, 0.28);
+  transform: translateY(-1px);
 }
 
 .stats-habit-name {
@@ -1046,9 +1154,21 @@ body.theme-light .tabbar-item.active {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.stats-habit-name-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.stats-habit-medal {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .stats-habit-meta {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 body.theme-light .stats-card {
@@ -1064,7 +1184,83 @@ body.theme-light .stats-card-label {
   color: rgba(0, 0, 0, 0.5);
 }
 
-body.theme-light .stats-habits-heading {
+body.theme-light .stats-info-summary {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+body.theme-light .stats-info-summary:hover {
+  border-color: rgba(0, 0, 0, 0.35);
+  color: rgba(0, 0, 0, 0.85);
+}
+
+body.theme-light .stats-info-panel {
+  border-color: rgba(0, 0, 0, 0.14);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+body.theme-light .stats-info-panel p {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+body.theme-light .stats-info-panel strong {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+body.theme-light \.stats-info {
+  margin: 0 0 1.25rem;
+  text-align: left;
+}
+
+.stats-info-summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stats-info-summary::-webkit-details-marker {
+  display: none;
+}
+
+.stats-info-summary:hover {
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.stats-info-panel {
+  margin-top: 0.6rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.stats-info-panel p {
+  margin: 0 0 0.45rem;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.stats-info-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.stats-info-panel strong {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.stats-habits-heading {
   color: rgba(0, 0, 0, 0.6);
 }
 

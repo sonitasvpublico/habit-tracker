@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import type { Habit } from './types'
 import AddHabitForm from './AddHabitForm'
 import HabitList from './HabitList'
-import { CompletedSection } from './CompletedSection.tsx'
 import { WeeklyView } from './WeeklyView.tsx'
 import { HistoryView } from './HistoryView.tsx'
 import { StatsView } from './StatsView'
@@ -14,13 +13,58 @@ import './App.css'
 
 type View = 'today' | 'weekly' | 'history' | 'stats' | 'more'
 
+function countDoneForDate(habits: Habit[], dateKey: string): number {
+  return habits.filter((habit) => habit.completedDates.includes(dateKey)).length
+}
+
+function playCelebrationChime() {
+  try {
+    const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+    if (!AudioCtx) return
+    const ctx = new AudioCtx()
+    void ctx.resume().then(() => {
+      const notes: Array<{ freq: number; delay: number }> = [
+        { freq: 783.99, delay: 0 },    // G5
+        { freq: 987.77, delay: 0.095 }, // B5
+        { freq: 1174.66, delay: 0.19 }, // D6
+      ]
+      const start = ctx.currentTime + 0.01
+
+      notes.forEach(({ freq, delay }) => {
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        osc.type = 'triangle'
+        osc.frequency.setValueAtTime(freq, start + delay)
+        gain.gain.setValueAtTime(0.0001, start + delay)
+        gain.gain.exponentialRampToValueAtTime(0.1, start + delay + 0.015)
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + delay + 0.27)
+        osc.connect(gain)
+        gain.connect(ctx.destination)
+        osc.start(start + delay)
+        osc.stop(start + delay + 0.28)
+      })
+
+      window.setTimeout(() => {
+        void ctx.close()
+      }, 750)
+    })
+  } catch {
+    // Ignore sound errors (autoplay/device restrictions).
+  }
+}
+
 function App() {
   const [habits, setHabits] = useState<Habit[]>(() => loadHabits())
   const [view, setView] = useState<View>('today')
   const [addFormOpen, setAddFormOpen] = useState(false)
   const [jellyPressed, setJellyPressed] = useState(false)
+  const [showCelebration, setShowCelebration] = useState(false)
   const addInputRef = useRef<HTMLInputElement>(null)
+  const wasFullyCompletedRef = useRef(false)
   const { t } = useLanguage()
+  const today = todayKey()
+  const doneTodayCount = habits.filter((habit) => habit.completedDates.includes(today)).length
+  const totalHabits = habits.length
 
   useEffect(() => {
     saveHabits(habits)
@@ -46,6 +90,39 @@ function App() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [addFormOpen])
 
+  useEffect(() => {
+    const isFullyCompleted = totalHabits > 0 && doneTodayCount === totalHabits
+    const crossedIntoComplete = isFullyCompleted && !wasFullyCompletedRef.current
+    wasFullyCompletedRef.current = isFullyCompleted
+    if (!crossedIntoComplete) return
+    if (totalHabits < 3) return
+
+    setShowCelebration(true)
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!prefersReducedMotion) {
+      void import('canvas-confetti').then(({ default: confetti }) => {
+        confetti({
+          particleCount: 90,
+          spread: 65,
+          startVelocity: 35,
+          origin: { y: 0.68 },
+        })
+        setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            spread: 85,
+            startVelocity: 30,
+            origin: { y: 0.62 },
+          })
+        }, 180)
+      })
+    }
+
+    const timer = window.setTimeout(() => setShowCelebration(false), 4200)
+    return () => window.clearTimeout(timer)
+  }, [doneTodayCount, totalHabits])
+
   function handleAdd(habit: Habit) {
     setHabits((prev) => [...prev, habit])
     setAddFormOpen(false)
@@ -61,7 +138,8 @@ function App() {
 
   function handleAddPastDate(id: string, dateKey: string) {
     setHabits((prev) =>
-      prev.map((h) =>
+      {
+        const next = prev.map((h) =>
         h.id !== id
           ? h
           : {
@@ -71,13 +149,24 @@ function App() {
                 : [...h.completedDates, dateKey].sort().reverse(),
             }
       )
+        if (dateKey === today) {
+          const prevDone = countDoneForDate(prev, today)
+          const nextDone = countDoneForDate(next, today)
+          const total = next.length
+          if (total >= 3 && prevDone < total && nextDone === total) {
+            playCelebrationChime()
+          }
+        }
+        return next
+      }
     )
   }
 
   function handleToggleDate(id: string, dateKey: string) {
     if (dateKey > todayKey()) return
     setHabits((prev) =>
-      prev.map((h) =>
+      {
+        const next = prev.map((h) =>
         h.id !== id
           ? h
           : {
@@ -87,24 +176,23 @@ function App() {
                 : [...h.completedDates, dateKey].sort().reverse(),
             }
       )
+        if (dateKey === today) {
+          const prevDone = countDoneForDate(prev, today)
+          const nextDone = countDoneForDate(next, today)
+          const total = next.length
+          if (total >= 3 && prevDone < total && nextDone === total) {
+            playCelebrationChime()
+          }
+        }
+        return next
+      }
     )
   }
 
   return (
     <main>
       <header className="app-header">
-        <button
-          type="button"
-          className="app-header-logo"
-          onClick={() => setView('today')}
-          aria-label={t('home')}
-        >
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="10" r="6" fill="currentColor" opacity="0.9" />
-            <path d="M8 28c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.8" />
-            <path d="M4 18l4-4 6 6 8-8 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6" />
-          </svg>
-        </button>
+        <span className="app-header-spacer" aria-hidden />
         {(view === 'more' || view === 'stats') ? (
           <span className="app-header-title app-header-title--current">
             {view === 'more' ? t('settings') : t('tabStats')}
@@ -170,7 +258,6 @@ function App() {
             onAddPastDate={handleAddPastDate}
             onToggleDate={handleToggleDate}
           />
-          <CompletedSection habits={habits} />
         </>
       )}
       {view === 'weekly' && <WeeklyView habits={habits} />}
@@ -258,6 +345,24 @@ function App() {
           <span className="tabbar-label">{t('tabStats')}</span>
         </button>
       </nav>
+      {showCelebration && (
+        <div className="celebration-toast" role="status" aria-live="polite">
+          <div className="celebration-toast-title">
+            {t('celebrationTitle')} 🎉
+          </div>
+          <div className="celebration-toast-body">
+            {t('celebrationBody', { done: doneTodayCount, total: totalHabits })}
+          </div>
+          <button
+            type="button"
+            className="celebration-toast-close"
+            onClick={() => setShowCelebration(false)}
+            aria-label={t('close')}
+          >
+            ×
+          </button>
+        </div>
+      )}
     </main>
   )
 }

@@ -1,5 +1,6 @@
 import type { Habit } from './types'
 import { useLanguage } from './LanguageContext'
+import { AnimatedEmptyState } from './AnimatedEmptyState'
 
 interface HistoryViewProps {
   habits: Habit[]
@@ -20,7 +21,15 @@ export function HistoryView({ habits }: HistoryViewProps) {
   const { t } = useLanguage()
 
   if (habits.length === 0) {
-    return <p className="empty-list">{t('emptyList')}</p>
+    return (
+      <AnimatedEmptyState
+        animationPath="/empty-states/history.json"
+        fallbackEmoji="🗂️"
+        title={t('historyEmptyTitle')}
+        line1={t('historyEmptyLine1')}
+        line2={t('historyEmptyLine2')}
+      />
+    )
   }
 
   const hasAnyCompletions = habits.some((h) => h.completedDates.length > 0)
@@ -36,7 +45,12 @@ export function HistoryView({ habits }: HistoryViewProps) {
             const dates = [...habit.completedDates].sort().reverse()
             return (
               <li key={habit.id} className="history-habit">
-                <h3 className="history-habit-name">{habit.name}</h3>
+                <h3 className="history-habit-name">
+                  <span className="history-habit-name-wrap">
+                    <span className="history-habit-emoji" aria-hidden>👏</span>
+                    <span>{habit.name}</span>
+                  </span>
+                </h3>
                 {dates.length === 0 ? (
                   <p className="history-empty">{t('noCompletions')}</p>
                 ) : (

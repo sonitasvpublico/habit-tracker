@@ -6,6 +6,15 @@ export const translations = {
     habitPlaceholder: 'Habit name',
     addButton: 'Add',
     emptyList: 'No habits yet. Add one above.',
+    emptyListTitle: 'No habits yet',
+    emptyListLine1: 'Start with one small habit to build momentum.',
+    emptyListLine2: 'Tap Add and create your first orbit today.',
+    weeklyEmptyTitle: 'No weekly data yet',
+    weeklyEmptyLine1: 'Your 7-day progress appears here once you add habits.',
+    weeklyEmptyLine2: 'Start in Today and your weekly view will come alive.',
+    historyEmptyTitle: 'No history yet',
+    historyEmptyLine1: 'Your completed days will appear as your timeline.',
+    historyEmptyLine2: 'Mark a habit today to start building your story.',
     deleteButton: 'Delete',
     deleteAria: 'Delete {name}',
     today: 'Today',
@@ -44,12 +53,28 @@ export const translations = {
     statsBestWeekHint: 'Highest number of completed days this week for a single habit (0 to 7).',
     statsBestWeek: 'Best this week',
     statsPerHabit: 'Per habit',
+    statsEmptyTitle: 'No stats yet',
+    statsEmptyLine1: 'Your progress insights will appear here automatically.',
+    statsEmptyLine2: 'Add a habit and complete a day to unlock your data view.',
+    versionLabel: 'Version',
+    developerLabel: 'Developer',
+    celebrationTitle: 'Perfect day!',
+    celebrationBody: 'You completed all habits today ({done}/{total}). Keep the streak alive.',
   },
   es: {
     appTitle: 'Rastreador de hábitos',
     habitPlaceholder: 'Nombre del hábito',
     addButton: 'Agregar',
     emptyList: 'No hay hábitos todavía. Agregá uno arriba.',
+    emptyListTitle: 'Aun no hay habitos',
+    emptyListLine1: 'Empieza con un habito pequeno para tomar ritmo.',
+    emptyListLine2: 'Toca Agregar y crea tu primera orbita hoy.',
+    weeklyEmptyTitle: 'Aun no hay datos semanales',
+    weeklyEmptyLine1: 'Tu progreso de 7 dias aparecera aqui al crear habitos.',
+    weeklyEmptyLine2: 'Empieza en Hoy y tu vista semanal cobrara vida.',
+    historyEmptyTitle: 'Aun no hay historial',
+    historyEmptyLine1: 'Tus dias completados apareceran como una linea de tiempo.',
+    historyEmptyLine2: 'Marca un habito hoy para empezar tu historia.',
     deleteButton: 'Eliminar',
     deleteAria: 'Eliminar {name}',
     today: 'Hoy',
@@ -88,12 +113,28 @@ export const translations = {
     statsBestWeekHint: 'Mayor cantidad de días completados esta semana para un solo hábito (0 a 7).',
     statsBestWeek: 'Mejor esta semana',
     statsPerHabit: 'Por hábito',
+    statsEmptyTitle: 'Aun no hay estadisticas',
+    statsEmptyLine1: 'Tus insights de progreso apareceran aqui automaticamente.',
+    statsEmptyLine2: 'Agrega un habito y completa un dia para activar esta vista.',
+    versionLabel: 'Version',
+    developerLabel: 'Desarrollador',
+    celebrationTitle: 'Dia perfecto!',
+    celebrationBody: 'Completaste todos tus habitos de hoy ({done}/{total}). Manten la racha.',
   },
   fi: {
     appTitle: 'Tapaseuranta',
     habitPlaceholder: 'Tavan nimi',
     addButton: 'Lisää',
     emptyList: 'Ei tapoja vielä. Lisää yksi yllä.',
+    emptyListTitle: 'Ei tapoja vielä',
+    emptyListLine1: 'Aloita yhdellä pienellä tavalla ja rakenna rytmiä.',
+    emptyListLine2: 'Napauta Lisää ja luo ensimmäinen orbit tänään.',
+    weeklyEmptyTitle: 'Ei viikkodataa vielä',
+    weeklyEmptyLine1: '7 päivän edistyminen näkyy täällä, kun lisäät tavat.',
+    weeklyEmptyLine2: 'Aloita Tänään-näkymästä, niin viikkonäkymä herää eloon.',
+    historyEmptyTitle: 'Ei historiaa vielä',
+    historyEmptyLine1: 'Valmiit päivät näkyvät täällä aikajanana.',
+    historyEmptyLine2: 'Merkitse tapa tehdyksi tänään ja aloita tarinasi.',
     deleteButton: 'Poista',
     deleteAria: 'Poista {name}',
     today: 'Tänään',
@@ -132,13 +173,20 @@ export const translations = {
     statsBestWeekHint: 'Yhden tavan korkein tällä viikolla tehtyjen päivien määrä (0–7).',
     statsBestWeek: 'Paras tällä viikolla',
     statsPerHabit: 'Per tapa',
+    statsEmptyTitle: 'Ei tilastoja vielä',
+    statsEmptyLine1: 'Edistymisen näkymä ilmestyy tänne automaattisesti.',
+    statsEmptyLine2: 'Lisää tapa ja merkitse päivä valmiiksi avataksesi datan.',
+    versionLabel: 'Versio',
+    developerLabel: 'Kehittäjä',
+    celebrationTitle: 'Täydellinen päivä!',
+    celebrationBody: 'Sait kaikki päivän tavat valmiiksi ({done}/{total}). Pidä putki elossa.',
   },
 } as const
 
 export function getTranslation(
   lang: Language,
   key: keyof typeof translations.en,
-  replace?: { name?: string; n?: number }
+  replace?: { name?: string; n?: number; done?: number; total?: number }
 ): string {
   let text: string = translations[lang][key]
   if (replace?.name !== undefined) {
@@ -146,6 +194,12 @@ export function getTranslation(
   }
   if (replace?.n !== undefined) {
     text = text.replace('{n}', String(replace.n))
+  }
+  if (replace?.done !== undefined) {
+    text = text.replace('{done}', String(replace.done))
+  }
+  if (replace?.total !== undefined) {
+    text = text.replace('{total}', String(replace.total))
   }
   return text
 }

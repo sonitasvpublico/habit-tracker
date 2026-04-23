@@ -11,7 +11,7 @@
 ## 👤 About the Developer
 
 - **Name:** Sonia
-- **Background:** Product Designer with 5 years UX/UI and manual testing experience
+- **Background:** Product Designer with 5 + years of QA, app development and UX experience
 - **Current Goal:** Learn TypeScript deeply while building practical projects
 - **Previous Project:** OmaVoltio (electricity price tracking app) - published to App Store & Google Play
 - **Tech Experience:** React, TypeScript basics, Firebase, API integration, mobile deployment

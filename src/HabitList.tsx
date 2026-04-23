@@ -3,6 +3,7 @@ import type { Habit } from './types'
 import { useLanguage } from './LanguageContext'
 import { todayKey, yesterdayKey, getWeeklyCount } from './streak'
 import { WeekRow } from './WeekRow'
+import { AnimatedEmptyState } from './AnimatedEmptyState'
 
 interface HabitListProps {
   habits: Habit[]
@@ -33,7 +34,15 @@ function HabitList({ habits, onDelete, onAddPastDate, onToggleDate }: HabitListP
   const touchStartX = useRef(0)
 
   if (habits.length === 0) {
-    return <p className="empty-list">{t('emptyList')}</p>
+    return (
+      <AnimatedEmptyState
+        animationPath="/empty-states/today.json"
+        fallbackEmoji="🥺"
+        title={t('emptyListTitle')}
+        line1={t('emptyListLine1')}
+        line2={t('emptyListLine2')}
+      />
+    )
   }
 
   function handleTouchStart(e: React.TouchEvent, id: string) {

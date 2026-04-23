@@ -12,7 +12,7 @@ import {
 
 type TranslateFn = (
   key: keyof typeof import('./translations').translations.en,
-  replace?: { name?: string; n?: number }
+  replace?: { name?: string; n?: number; done?: number; total?: number }
 ) => string
 
 type LanguageContextValue = {

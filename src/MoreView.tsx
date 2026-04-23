@@ -37,6 +37,20 @@ export function MoreView() {
           </button>
         </div>
       </div>
+      <div className="more-brand-card" aria-label={t('settings')}>
+        <img
+          className="more-brand-logo"
+          src="/logos/orbital-original-1024.png"
+          alt="Habit Orbit logo"
+        />
+        <p className="more-brand-name">Habit Orbit</p>
+        <p className="more-brand-meta">
+          {t('versionLabel')}: 1.0
+        </p>
+        <p className="more-brand-meta">
+          {t('developerLabel')}: SonitaSV
+        </p>
+      </div>
     </section>
   )
 }

@@ -1,6 +1,7 @@
 import type { Habit } from './types'
 import { useLanguage } from './LanguageContext'
 import { getWeeklyCount } from './streak'
+import { AnimatedEmptyState } from './AnimatedEmptyState'
 
 interface WeeklyViewProps {
   habits: Habit[]
@@ -10,7 +11,15 @@ export function WeeklyView({ habits }: WeeklyViewProps) {
   const { t } = useLanguage()
 
   if (habits.length === 0) {
-    return <p className="empty-list">{t('emptyList')}</p>
+    return (
+      <AnimatedEmptyState
+        animationPath="/empty-states/weekly.json"
+        fallbackEmoji="📊"
+        title={t('weeklyEmptyTitle')}
+        line1={t('weeklyEmptyLine1')}
+        line2={t('weeklyEmptyLine2')}
+      />
+    )
   }
 
   const sortedHabits = [...habits].sort((a, b) => {

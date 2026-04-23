@@ -1,15 +1,16 @@
 import type { Habit } from './types'
 import { useLanguage } from './LanguageContext'
 import { getStreak, getWeeklyCount, todayKey } from './streak'
+import { AnimatedEmptyState } from './AnimatedEmptyState'
 
 interface StatsViewProps {
   habits: Habit[]
 }
 
 function getMedal(rank: number): string | null {
-  if (rank === 0) return '🥇'
-  if (rank === 1) return '🥈'
-  if (rank === 2) return '🥉'
+  if (rank === 0) return '/jelly-orbit-medal-gold.png'
+  if (rank === 1) return '/jelly-orbit-medal-silver.png'
+  if (rank === 2) return '/jelly-orbit-medal-bronze.png'
   return null
 }
 
@@ -19,7 +20,13 @@ export function StatsView({ habits }: StatsViewProps) {
   if (habits.length === 0) {
     return (
       <section className="stats-view">
-        <p className="empty-list">{t('emptyList')}</p>
+        <AnimatedEmptyState
+          animationPath="/empty-states/data.json"
+          fallbackEmoji="📈"
+          title={t('statsEmptyTitle')}
+          line1={t('statsEmptyLine1')}
+          line2={t('statsEmptyLine2')}
+        />
       </section>
     )
   }
@@ -75,7 +82,14 @@ export function StatsView({ habits }: StatsViewProps) {
             return (
               <li key={habit.id} className="stats-habit-row">
                 <span className="stats-habit-name-wrap">
-                  {medal && <span className="stats-habit-medal" aria-hidden>{medal}</span>}
+                  {medal && (
+                    <img
+                      className="stats-habit-medal"
+                      src={medal}
+                      alt=""
+                      aria-hidden
+                    />
+                  )}
                   <span className="stats-habit-name">{habit.name}</span>
                 </span>
                 <span className="stats-habit-meta">

@@ -69,6 +69,9 @@ export function StatsView({ habits }: StatsViewProps) {
           <p><strong>{t('statsDoneToday')}:</strong> {t('statsDoneTodayHint')}</p>
           <p><strong>{t('statsWeeklyAvg')}:</strong> {t('statsHowCalcHint')}</p>
           <p><strong>{t('statsBestWeek')}:</strong> {t('statsBestWeekHint')}</p>
+          <p><strong>Medals:</strong> {t('statsMedalsHint')}</p>
+          <p><strong>History:</strong> {t('statsHistoryLevelsHint')}</p>
+          <p><strong>Profile level:</strong> {t('statsProfileLevelHint')}</p>
         </div>
       </details>
       <div className="stats-habits">

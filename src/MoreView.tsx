@@ -5,6 +5,8 @@ interface MoreViewProps {
   totalHabits: number
 }
 
+const LEVEL_THRESHOLDS = [3, 6, 10, 15] as const
+
 function getLevelFromHabitCount(totalHabits: number): number {
   if (totalHabits >= 15) return 5
   if (totalHabits >= 10) return 4
@@ -58,12 +60,23 @@ function getLevelIconPath(level: number): string {
   }
 }
 
+function getNextLevelRequirement(totalHabits: number): number | null {
+  for (const threshold of LEVEL_THRESHOLDS) {
+    if (totalHabits < threshold) return threshold
+  }
+  return null
+}
+
 export function MoreView({ totalHabits }: MoreViewProps) {
   const { t, language, setLanguage } = useLanguage()
   const level = getLevelFromHabitCount(totalHabits)
   const levelName = getLevelName(level, t)
   const levelEmoji = getLevelEmoji(level)
   const levelIconPath = getLevelIconPath(level)
+  const nextLevelRequirement = getNextLevelRequirement(totalHabits)
+  const habitsToNextLevel = nextLevelRequirement === null ? 0 : nextLevelRequirement - totalHabits
+  const nextLevelName =
+    nextLevelRequirement === null ? '' : getLevelName(getLevelFromHabitCount(nextLevelRequirement), t)
   const [showLevelUp, setShowLevelUp] = useState(false)
 
   useEffect(() => {
@@ -115,6 +128,11 @@ export function MoreView({ totalHabits }: MoreViewProps) {
           <img className="settings-header-level-icon" src={levelIconPath} alt="" aria-hidden />
           {t('levelLabel')} {level} - {levelName}
         </h2>
+        <p className="settings-header-level-rule">
+          {nextLevelRequirement === null
+            ? t('levelRuleMax')
+            : t('levelRuleNext', { n: habitsToNextLevel, name: nextLevelName })}
+        </p>
         {showLevelUp && (
           <p className="settings-levelup-burst" aria-live="polite">
             🎉 {t('levelUpText')} 🎉

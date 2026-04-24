@@ -301,7 +301,7 @@ form button[type="submit"]:active {
   padding: 0.55em 0.85em;
   font-size: 0.88em;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 0.8px solid rgba(var(--accent-mint-rgb), 0.55);
   background: transparent;
   color: #b7bfd4;
   -webkit-text-fill-color: #b7bfd4;
@@ -1566,8 +1566,14 @@ body.theme-light .stats-habit-meta {
   gap: 0.42rem;
   font-size: 1.3rem;
   line-height: 1.25;
-  color: rgba(255, 244, 196, 0.98);
+  color: var(--accent-mint-soft);
   text-shadow: 0 0 14px rgba(var(--accent-mint-rgb), 0.2);
+}
+
+.settings-header-level-rule {
+  margin: 0 10px 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.66);
 }
 
 .settings-header-level-icon {
@@ -1611,6 +1617,10 @@ body.theme-light .settings-header-title {
 body.theme-light .settings-header-title--level {
   color: rgba(146, 102, 0, 0.95);
   text-shadow: none;
+}
+
+body.theme-light .settings-header-level-rule {
+  color: rgba(0, 0, 0, 0.62);
 }
 
 body.theme-light .settings-levelup-burst {

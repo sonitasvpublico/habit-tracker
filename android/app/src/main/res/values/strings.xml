@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Habit Orbit</string>
+    <string name="title_activity_main">Habit Orbit</string>
+    <string name="package_name">com.sonitasv.habitorbit</string>
+    <string name="custom_url_scheme">com.sonitasv.habitorbit</string>
+</resources>

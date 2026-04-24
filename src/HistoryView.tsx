@@ -105,12 +105,17 @@ export function HistoryView({ habits }: HistoryViewProps) {
                 >
                   <h3 className="history-habit-name">
                     <span className="history-habit-name-wrap">
-                      <span className="history-habit-emoji" aria-hidden>👏</span>
                       <span>{habit.name}</span>
                     </span>
                   </h3>
                   <span className="history-habit-summary">
                     {dates.length === 0 ? t('noCompletions') : `${dates.length} ${t('historyCompletionsLabel')}`}
+                    <span
+                      className={`history-habit-chevron ${isExpanded ? 'is-open' : ''}`}
+                      aria-hidden
+                    >
+                      ▾
+                    </span>
                   </span>
                 </button>
                 {isExpanded && (

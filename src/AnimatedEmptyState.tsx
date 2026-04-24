@@ -43,9 +43,9 @@ export function AnimatedEmptyState({
           <div className="empty-list-emoji empty-list-emoji--animated">{fallbackEmoji}</div>
         )}
       </div>
-      <p className="empty-list-title">{title}</p>
-      <p className="empty-list">{line1}</p>
-      <p className="empty-list">{line2}</p>
+      {title.trim().length > 0 && <p className="empty-list-title">{title}</p>}
+      {line1.trim().length > 0 && <p className="empty-list">{line1}</p>}
+      {line2.trim().length > 0 && <p className="empty-list">{line2}</p>}
     </div>
   )
 }

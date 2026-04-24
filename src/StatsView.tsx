@@ -8,9 +8,9 @@ interface StatsViewProps {
 }
 
 function getMedal(rank: number): string | null {
-  if (rank === 0) return '/jelly-orbit-medal-gold.png'
-  if (rank === 1) return '/jelly-orbit-medal-silver.png'
-  if (rank === 2) return '/jelly-orbit-medal-bronze.png'
+  if (rank === 0) return '/levels-medals-3d/1-lugar.png'
+  if (rank === 1) return '/levels-medals-3d/2-lugar.png'
+  if (rank === 2) return '/levels-medals-3d/3-lugar.png'
   return null
 }
 

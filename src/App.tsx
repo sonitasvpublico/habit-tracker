@@ -263,7 +263,7 @@ function App() {
       {view === 'weekly' && <WeeklyView habits={habits} />}
       {view === 'history' && <HistoryView habits={habits} />}
       {view === 'stats' && <StatsView habits={habits} />}
-      {view === 'more' && <MoreView />}
+      {view === 'more' && <MoreView totalHabits={totalHabits} />}
       {addFormOpen && (
         <div
           className="add-modal-backdrop"

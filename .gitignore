@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Android signing keys (never commit)
+android/keystore/
+*.jks
+*.keystore
+
+# Android local release outputs (APK from Generate Signed; regenerate as needed)
+android/app/release/
